@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Leadership Game</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFEB3B 50%, #F9A825 100%);
+            min-height: 100%;
+            color: #212121;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border: 3px solid #212121;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            color: #212121;
+            font-weight: bold;
+        }
+        
+        .header p {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #424242;
+        }
+        
+        .scenario-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+            border: 2px solid #212121;
+        }
+        
+        .scenario-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #212121;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scenario-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #424242;
+            margin-bottom: 25px;
+        }
+        
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .choice-btn {
+            background: #FFEB3B;
+            border: 3px solid #212121;
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #212121;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .choice-btn:hover {
+            background: #FDD835;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .outcome {
+            background: #212121;
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .outcome h3 {
+            color: #FFEB3B;
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #212121;
+            margin: 20px 0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #212121;
+        }
+        
+        .continue-btn {
+            background: #212121;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .continue-btn:hover {
+            background: #424242;
+            transform: translateY(-2px);
+        }
+        
+        .final-score {
+            background: linear-gradient(135deg, #212121 0%, #424242 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .final-score h2 {
+            color: #FFEB3B;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .restart-btn {
+            background: #FFEB3B;
+            color: #212121;
+            border: 3px solid white;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            background: #FDD835;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .scenario-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="game-container">
+        <header class="header">
+            <h1>🏥 AI Health Leadership Challenge</h1>
+            <p>Lead an AI implementation project in a major hospital. Your decisions shape patient outcomes and team success.</p>
+        </header>
+        
+        <div id="game-content">
+            <div class="scenario-card">
+                <div class="scenario-title">
+                    🎯 Scenario 1: Project Kickoff
+                </div>
+                <div class="scenario-content">
+                    You've just been appointed to lead the implementation of an AI diagnostic system at Metropolitan General Hospital. The CEO wants results in 6 months, but the medical staff seems skeptical. Your first team meeting is tomorrow.
+                    <br><br>
+                    How do you approach this critical first meeting?
+                </div>
+                <div class="choices">
+                    <button class="choice-btn" onclick="makeChoice(1, 'A')">
+                        📊 Present detailed technical specifications and timeline to establish credibility
+                    </button>
+                    <button class="choice-btn" onclick="makeChoice(1, 'B')">
+                        👥 Focus on listening to staff concerns and building trust before discussing technology
+                    </button>
+                    <button class="choice-btn" onclick="makeChoice(1, 'C')">
+                        ⚡ Emphasize the CEO's urgency and push for immediate action to meet deadlines
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Team Trust</div>
+                <div class="stat-value" id="trust">50</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Patient Safety</div>
+                <div class="stat-value" id="safety">50</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Project Progress</div>
+                <div class="stat-value" id="progress">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Budget Efficiency</div>
+                <div class="stat-value" id="budget">50</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let gameState = {
+            trust: 50,
+            safety: 50,
+            progress: 0,
+            budget: 50,
+            scenario: 1,
+            choices: []
+        };
+
+        const scenarios = {
+            1: {
+                A: {
+                    outcome: "The technical presentation impresses some staff but overwhelms others. Nurses feel excluded from the conversation, while doctors appreciate the thoroughness.",
+                    effects: { trust: -5, safety: +5, progress: +15, budget: 0 },
+                    next: 2
+                },
+                B: {
+                    outcome: "Your listening approach builds strong rapport. Staff share valuable insights about workflow challenges and patient interaction patterns that will be crucial for implementation.",
+                    effects: { trust: +15, safety: +10, progress: +5, budget: 0 },
+                    next: 2
+                },
+                C: {
+                    outcome: "The pressure creates tension. Staff feel rushed and worry that patient safety might be compromised for speed. Resistance begins to form.",
+                    effects: { trust: -10, safety: -10, progress: +10, budget: +5 },
+                    next: 2
+                }
+            },
+            2: {
+                A: {
+                    outcome: "The pilot program reveals critical workflow issues early. Staff appreciate the careful approach, and you gather valuable data for system refinement.",
+                    effects: { trust: +10, safety: +15, progress: +10, budget: -5 },
+                    next: 3
+                },
+                B: {
+                    outcome: "The hospital-wide rollout creates chaos. Multiple departments struggle simultaneously, and patient care is disrupted. Emergency protocols are activated.",
+                    effects: { trust: -15, safety: -20, progress: +20, budget: +10 },
+                    next: 3
+                },
+                C: {
+                    outcome: "Extended training builds confidence but delays implementation. The CEO expresses concern about timeline, but staff feel well-prepared.",
+                    effects: { trust: +5, safety: +10, progress: -10, budget: -10 },
+                    next: 3
+                }
+            },
+            3: {
+                A: {
+                    outcome: "Your transparency about the error builds trust. The team works together to implement additional safeguards, strengthening the system.",
+                    effects: { trust: +15, safety: +20, progress: +5, budget: -5 },
+                    next: 'end'
+                },
+                B: {
+                    outcome: "The quick fix works temporarily, but the underlying issue resurfaces later with more serious consequences. Trust in the system erodes.",
+                    effects: { trust: -10, safety: -15, progress: +10, budget: +5 },
+                    next: 'end'
+                },
+                C: {
+                    outcome: "Blaming the vendor damages relationships and delays resolution. The real issue remains unaddressed, and staff lose confidence in your leadership.",
+                    effects: { trust: -20, safety: -10, progress: -5, budget: 0 },
+                    next: 'end'
+                }
+            }
+        };
+
+        const scenarioTexts = {
+            2: {
+                title: "🚀 Scenario 2: Implementation Strategy",
+                content: "The AI system has arrived and needs to be deployed. You have three options for rollout strategy. The medical director is pushing for speed, while the nursing supervisor wants extensive training first.",
+                choices: {
+                    A: "🧪 Start with a small pilot program in one department to test and refine",
+                    B: "🏥 Deploy across the entire hospital immediately to maximize impact",
+                    C: "📚 Spend 2 months on comprehensive training before any deployment"
+                }
+            },
+            3: {
+                title: "⚠️ Scenario 3: Crisis Management",
+                content: "Three weeks into deployment, the AI system flags a potential misdiagnosis that could have been serious. However, investigation reveals the AI was actually correct, but it also shows a gap in the system's explanation capabilities that confused the medical team.",
+                choices: {
+                    A: "🔍 Immediately halt deployment to conduct thorough system review and add explanation features",
+                    B: "⚡ Implement a quick patch to improve explanations and continue with closer monitoring",
+                    C: "📞 Blame the vendor for inadequate training materials and demand immediate fixes"
+                }
+            }
+        };
+
+        function updateStats() {
+            document.getElementById('trust').textContent = Math.max(0, Math.min(100, gameState.trust));
+            document.getElementById('safety').textContent = Math.max(0, Math.min(100, gameState.safety));
+            document.getElementById('progress').textContent = Math.max(0, Math.min(100, gameState.progress));
+            document.getElementById('budget').textContent = Math.max(0, Math.min(100, gameState.budget));
+        }
+
+        function makeChoice(scenario, choice) {
+            gameState.choices.push({scenario, choice});
+            const result = scenarios[scenario][choice];
+            
+            // Apply effects
+            Object.keys(result.effects).forEach(stat => {
+                gameState[stat] += result.effects[stat];
+            });
+            
+            // Show outcome
+            showOutcome(result.outcome, result.next);
+            updateStats();
+        }
+
+        function showOutcome(outcomeText, nextScenario) {
+            const gameContent = document.getElementById('game-content');
+            
+            const outcomeDiv = document.createElement('div');
+            outcomeDiv.className = 'outcome';
+            outcomeDiv.innerHTML = `
+                <h3>📋 Outcome</h3>
+                <p>${outcomeText}</p>
+            `;
+            
+            gameContent.appendChild(outcomeDiv);
+            
+            if (nextScenario === 'end') {
+                setTimeout(() => showFinalResults(), 2000);
+            } else {
+                const continueBtn = document.createElement('button');
+                continueBtn.className = 'continue-btn';
+                continueBtn.textContent = 'Continue to Next Scenario';
+                continueBtn.onclick = () => loadScenario(nextScenario);
+                outcomeDiv.appendChild(continueBtn);
+            }
+        }
+
+        function loadScenario(scenarioNum) {
+            gameState.scenario = scenarioNum;
+            const scenario = scenarioTexts[scenarioNum];
+            
+            const gameContent = document.getElementById('game-content');
+            gameContent.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-title">
+                        ${scenario.title}
+                    </div>
+                    <div class="scenario-content">
+                        ${scenario.content}
+                    </div>
+                    <div class="choices">
+                        <button class="choice-btn" onclick="makeChoice(${scenarioNum}, 'A')">
+                            ${scenario.choices.A}
+                        </button>
+                        <button class="choice-btn" onclick="makeChoice(${scenarioNum}, 'B')">
+                            ${scenario.choices.B}
+                        </button>
+                        <button class="choice-btn" onclick="makeChoice(${scenarioNum}, 'C')">
+                            ${scenario.choices.C}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showFinalResults() {
+            const gameContent = document.getElementById('game-content');
+            
+            const totalScore = gameState.trust + gameState.safety + gameState.progress + gameState.budget;
+            let rating, message;
+            
+            if (totalScore >= 280) {
+                rating = "🏆 Exceptional Leader";
+                message = "Outstanding! You've successfully balanced all aspects of AI implementation while maintaining team trust and patient safety.";
+            } else if (totalScore >= 240) {
+                rating = "⭐ Strong Leader";
+                message = "Great job! Your leadership resulted in a successful AI implementation with good outcomes across most areas.";
+            } else if (totalScore >= 200) {
+                rating = "👍 Competent Leader";
+                message = "Good work! You managed the project well, though there's room for improvement in some areas.";
+            } else if (totalScore >= 160) {
+                rating = "📈 Learning Leader";
+                message = "You faced significant challenges but gained valuable experience. Consider what you'd do differently next time.";
+            } else {
+                rating = "🔄 Try Again";
+                message = "This was a tough project with mixed results. Leadership in AI implementation requires balancing multiple competing priorities.";
+            }
+            
+            gameContent.innerHTML = `
+                <div class="final-score">
+                    <h2>${rating}</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">${message}</p>
+                    <div style="font-size: 1.1rem;">
+                        <strong>Final Score: ${totalScore}/400</strong><br>
+                        Trust: ${Math.max(0, Math.min(100, gameState.trust))}/100 | 
+                        Safety: ${Math.max(0, Math.min(100, gameState.safety))}/100 | 
+                        Progress: ${Math.max(0, Math.min(100, gameState.progress))}/100 | 
+                        Budget: ${Math.max(0, Math.min(100, gameState.budget))}/100
+                    </div>
+                    <button class="restart-btn" onclick="restartGame()">
+                        🔄 Lead Another AI Project
+                    </button>
+                </div>
+            `;
+        }
+
+        function restartGame() {
+            gameState = {
+                trust: 50,
+                safety: 50,
+                progress: 0,
+                budget: 50,
+                scenario: 1,
+                choices: []
+            };
+            
+            location.reload();
+        }
+
+        // Initialize the game
+        updateStats();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992a79e99027ba08',t:'MTc2MTE1MTY0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
