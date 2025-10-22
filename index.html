@@ -424,39 +424,60 @@
         function showFinalResults() {
             const gameContent = document.getElementById('game-content');
             
-            const totalScore = gameState.trust + gameState.safety + gameState.progress + gameState.budget;
-            let rating, message;
+            // Determine leadership style based on highest values
+            const stats = {
+                trust: Math.max(0, Math.min(100, gameState.trust)),
+                safety: Math.max(0, Math.min(100, gameState.safety)),
+                progress: Math.max(0, Math.min(100, gameState.progress)),
+                budget: Math.max(0, Math.min(100, gameState.budget))
+            };
             
-            if (totalScore >= 280) {
-                rating = "🏆 Exceptional Leader";
-                message = "Outstanding! You've successfully balanced all aspects of AI implementation while maintaining team trust and patient safety.";
-            } else if (totalScore >= 240) {
-                rating = "⭐ Strong Leader";
-                message = "Great job! Your leadership resulted in a successful AI implementation with good outcomes across most areas.";
-            } else if (totalScore >= 200) {
-                rating = "👍 Competent Leader";
-                message = "Good work! You managed the project well, though there's room for improvement in some areas.";
-            } else if (totalScore >= 160) {
-                rating = "📈 Learning Leader";
-                message = "You faced significant challenges but gained valuable experience. Consider what you'd do differently next time.";
+            let rating, message, style;
+            
+            // Determine leadership style based on choices and outcomes
+            if (stats.trust >= 60 && stats.safety >= 60) {
+                rating = "🤝 Collaborative Leader";
+                style = "People-Centered Approach";
+                message = "You prioritized building relationships and ensuring safety. Your team-first approach created a strong foundation for sustainable AI implementation.";
+            } else if (stats.progress >= 60 && stats.budget >= 60) {
+                rating = "🚀 Results-Driven Leader";
+                style = "Efficiency-Focused Approach";
+                message = "You focused on delivering results efficiently. Your goal-oriented leadership kept the project moving forward and within budget constraints.";
+            } else if (stats.safety >= 70) {
+                rating = "🛡️ Safety-First Leader";
+                style = "Risk-Conscious Approach";
+                message = "You made patient safety your top priority. Your cautious and thorough approach ensures reliable AI implementation with minimal risk.";
+            } else if (stats.trust >= 70) {
+                rating = "👥 Relationship Builder";
+                style = "Trust-Centered Approach";
+                message = "You excelled at building team trust and buy-in. Your inclusive leadership style creates lasting organizational change.";
+            } else if (stats.progress >= 70) {
+                rating = "⚡ Action-Oriented Leader";
+                style = "Fast-Paced Approach";
+                message = "You kept the project moving at a rapid pace. Your decisive leadership drives quick implementation and visible progress.";
             } else {
-                rating = "🔄 Try Again";
-                message = "This was a tough project with mixed results. Leadership in AI implementation requires balancing multiple competing priorities.";
+                rating = "🎯 Balanced Leader";
+                style = "Well-Rounded Approach";
+                message = "You worked to balance multiple priorities. Your adaptive leadership style shows flexibility in complex situations.";
             }
             
             gameContent.innerHTML = `
                 <div class="final-score">
                     <h2>${rating}</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 20px;">${message}</p>
-                    <div style="font-size: 1.1rem;">
-                        <strong>Final Score: ${totalScore}/400</strong><br>
-                        Trust: ${Math.max(0, Math.min(100, gameState.trust))}/100 | 
-                        Safety: ${Math.max(0, Math.min(100, gameState.safety))}/100 | 
-                        Progress: ${Math.max(0, Math.min(100, gameState.progress))}/100 | 
-                        Budget: ${Math.max(0, Math.min(100, gameState.budget))}/100
+                    <h3 style="color: #FFEB3B; margin: 10px 0;">${style}</h3>
+                    <p style="font-size: 1.2rem; margin-bottom: 25px;">${message}</p>
+                    <div style="font-size: 1rem; background: rgba(255,235,59,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <strong>Your Leadership Impact:</strong><br><br>
+                        Team Trust: ${stats.trust}% | 
+                        Patient Safety: ${stats.safety}%<br>
+                        Project Progress: ${stats.progress}% | 
+                        Budget Efficiency: ${stats.budget}%
                     </div>
+                    <p style="font-size: 1rem; font-style: italic;">
+                        Every leadership style has unique strengths. Great leaders adapt their approach based on the situation and team needs.
+                    </p>
                     <button class="restart-btn" onclick="restartGame()">
-                        🔄 Lead Another AI Project
+                        🔄 Try a Different Leadership Approach
                     </button>
                 </div>
             `;
@@ -478,5 +499,5 @@
         // Initialize the game
         updateStats();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992a79e99027ba08',t:'MTc2MTE1MTY0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992a824bc452ba08',t:'MTc2MTE1MTk4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
